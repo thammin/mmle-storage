@@ -1,6 +1,6 @@
 {
   "name": "mmle-storage",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Make My Life Easier - storage",
   "main": "index.js",
   "scripts": {
