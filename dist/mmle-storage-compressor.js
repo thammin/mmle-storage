@@ -679,7 +679,6 @@ if (typeof define === 'function' && define.amd) {
       }
     } else {
       var _value = root.localStorage.getItem(_key);
-      console.log(_value)
       if (_value) {
         return tryParse(c[c.storageType].decoder(_value));
       } else {

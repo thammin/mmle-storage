@@ -10,13 +10,13 @@
 
 # Usage
 
+#### Browser
+
 ```
 └── dist
     ├── mmle-storage.js
     └── mmle-storage-compressor.js // included lz-string compressor
 ```
-
-## Browser
 
 ```js
 var storage = mmle.storage;
