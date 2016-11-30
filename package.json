@@ -1,0 +1,33 @@
+{
+  "name": "mmle-storage",
+  "version": "0.0.0",
+  "description": "Make My Life Easier - storage",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run build && mocha --require intelli-espower-loader",
+    "build": "npm run build-normal && npm run build-compressor",
+    "build-normal": "cat index.js > dist/mmle-storage.js",
+    "build-compressor": "cat node_modules/lz-string/libs/lz-string.js index.js > dist/mmle-storage-compressor.js"
+  },
+  "keywords": [
+    "thammin",
+    "make",
+    "my",
+    "life",
+    "easier",
+    "storage",
+    "localStorage",
+    "cookie",
+    "lz-string",
+    "encode"
+  ],
+  "author": "Paul Young <thammin@live.co.uk> (https://github.com/thammin)",
+  "license": "MIT",
+  "devDependencies": {
+    "atomus": "^2.0.0",
+    "intelli-espower-loader": "^1.0.1",
+    "lz-string": "^1.4.4",
+    "mocha": "^3.2.0",
+    "power-assert": "^1.4.2"
+  }
+}
