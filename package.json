@@ -3,6 +3,10 @@
   "version": "1.1.0",
   "description": "Make My Life Easier - storage",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thammin/mmle-storage.git"
+  },
   "scripts": {
     "test": "npm run build && mocha --require intelli-espower-loader",
     "build": "npm run build-normal && npm run build-compressor",
