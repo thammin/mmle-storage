@@ -25,6 +25,50 @@ describe('Some boring tests.', function() {
 
   testTargets.forEach(function(src) {
 
+    describe('Error tests.(' + src + ')', function() {
+      var context;
+      var storage;
+
+      beforeEach(function(done) {
+        if (!context) {
+          atomus()
+            .html('')
+            .external(src)
+            .ready(function(err, window) {
+              context = window;
+              storage = window.mmle.storage;
+              done();
+            });
+        } else {
+          done();
+        }
+      });
+
+      it('should throw error when set with invalid arguments.', function() {
+        try {
+          storage.set();
+        } catch(e) {
+          assert(e.message === 'Invalid key.');
+        }
+      });
+
+      it('should throw error when get with invalid arguments.', function() {
+        try {
+          storage.get();
+        } catch(e) {
+          assert(e.message === 'Invalid key.');
+        }
+      });
+
+      it('should throw error when remove with invalid arguments.', function() {
+        try {
+          storage.remove();
+        } catch(e) {
+          assert(e.message === 'Invalid key.');
+        }
+      });
+    });
+
     describe('Test with localStorage.(' + src + ')', function() {
       var context;
       var storage;

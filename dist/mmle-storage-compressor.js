@@ -612,7 +612,7 @@ if (typeof define === 'function' && define.amd) {
    */
   function baseSet(key, value, expireDate) {
     if (!key) {
-      throw new Error('Invalid arguments.');
+      throw new Error('Invalid key.');
     }
 
     var _key = C.prefix + key;
@@ -662,7 +662,7 @@ if (typeof define === 'function' && define.amd) {
    */
   function get(key) {
     if (!key) {
-      throw new Error('Invalid arguments.');
+      throw new Error('Invalid key.');
     }
 
     var _key = C.prefix + key;
@@ -716,7 +716,7 @@ if (typeof define === 'function' && define.amd) {
    */
   function remove(key) {
     if (!key) {
-      throw new Error('Invalid arguments.');
+      throw new Error('Invalid key.');
     }
 
     var _key = C.prefix + key;

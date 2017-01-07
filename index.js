@@ -111,7 +111,7 @@
    */
   function baseSet(key, value, expireDate) {
     if (!key) {
-      throw new Error('Invalid arguments.');
+      throw new Error('Invalid key.');
     }
 
     var _key = C.prefix + key;
@@ -161,7 +161,7 @@
    */
   function get(key) {
     if (!key) {
-      throw new Error('Invalid arguments.');
+      throw new Error('Invalid key.');
     }
 
     var _key = C.prefix + key;
@@ -215,7 +215,7 @@
    */
   function remove(key) {
     if (!key) {
-      throw new Error('Invalid arguments.');
+      throw new Error('Invalid key.');
     }
 
     var _key = C.prefix + key;
