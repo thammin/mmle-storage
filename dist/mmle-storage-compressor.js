@@ -599,7 +599,7 @@ if (typeof define === 'function' && define.amd) {
         });
     }
 
-    return Promise.resolve(storedKeys);
+    return storedKeys;
   }
 
   /**
@@ -612,7 +612,7 @@ if (typeof define === 'function' && define.amd) {
    */
   function baseSet(key, value, expireDate) {
     if (!key) {
-      return Promise.reject(new Error('Invalid arguments.'));
+      throw new Error('Invalid arguments.');
     }
 
     var _key = C.prefix + key;
@@ -625,8 +625,6 @@ if (typeof define === 'function' && define.amd) {
     } else {
       root.localStorage.setItem(_key, c[c.storageType].encoder(_value));
     }
-
-    return Promise.resolve();
   }
 
   /**
@@ -636,7 +634,7 @@ if (typeof define === 'function' && define.amd) {
    * @param {*} value
    */
   function set(key, value) {
-    return baseSet(key, value);
+    baseSet(key, value);
   }
 
   /**
@@ -653,7 +651,7 @@ if (typeof define === 'function' && define.amd) {
       value: value
     };
 
-    return baseSet(key, wrappedValue, expireDate);
+    baseSet(key, wrappedValue, expireDate);
   }
 
   /**
@@ -664,7 +662,7 @@ if (typeof define === 'function' && define.amd) {
    */
   function get(key) {
     if (!key) {
-      return Promise.reject();
+      throw new Error('Invalid arguments.');
     }
 
     var _key = C.prefix + key;
@@ -681,14 +679,14 @@ if (typeof define === 'function' && define.amd) {
       if (_value) {
         return tryParse(c[c.storageType].decoder(_value));
       } else {
-        return Promise.resolve(_value);
+        return _value;
       }
     } else {
       var _value = root.localStorage.getItem(_key);
       if (_value) {
         return tryParse(c[c.storageType].decoder(_value));
       } else {
-        return Promise.resolve(_value);
+        return _value;
       }
     }
   }
@@ -700,18 +698,15 @@ if (typeof define === 'function' && define.amd) {
    * @returns {*}
    */
   function getWithExpire(key) {
-    return get(key)
-      .then(function(wrappedValue) {
-        if (wrappedValue) {
-          if (new Date().getTime() > wrappedValue.expireDate) {
-            return remove(key);
-          } else {
-            return wrappedValue.value;
-          }
-        } else {
-          return Promise.resolve();
-        }
-      });
+    var wrappedValue = get(key);
+
+    if (wrappedValue) {
+      if (new Date().getTime() > wrappedValue.expireDate) {
+        remove(key);
+      } else {
+        return wrappedValue.value;
+      }
+    }
   }
 
   /**
@@ -721,7 +716,7 @@ if (typeof define === 'function' && define.amd) {
    */
   function remove(key) {
     if (!key) {
-      return Promise.reject();
+      throw new Error('Invalid arguments.');
     }
 
     var _key = C.prefix + key;
@@ -735,13 +730,10 @@ if (typeof define === 'function' && define.amd) {
         });
 
       if (cookieStorage.hasOwnProperty(_key)) {
-        return baseSet(key, undefined, C.cookie.dead);
-      } else {
-        return Promise.resolve();
+        baseSet(key, undefined, C.cookie.dead);
       }
     } else {
       root.localStorage.removeItem(_key);
-      return Promise.resolve();
     }
   }
 
@@ -750,10 +742,7 @@ if (typeof define === 'function' && define.amd) {
    */
   function removeAll() {
     // TODO: should execute by one operation for performance
-    return keys()
-      .then(function(keys) {
-        return Promise.all(keys.map(remove));
-      });
+    keys().map(remove);
   }
 
   /**
@@ -765,9 +754,9 @@ if (typeof define === 'function' && define.amd) {
    */
   function tryParse(value) {
     try {
-      return Promise.resolve(JSON.parse(value));
+      return JSON.parse(value);
     } catch (e) {
-      return Promise.resolve(value);
+      return value;
     }
   }
 

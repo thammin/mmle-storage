@@ -3,7 +3,6 @@
 > Make My Life Easier when manipulate with `localStorage`
 
 * fallback to `cookie` if `localStorage` is not available
-* Promise based
 * include unique prefix automatically to prevent conflict 
 * support time expiration
 * option to use [lz-string](https://github.com/pieroxy/lz-string) as data compressor

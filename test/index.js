@@ -69,90 +69,52 @@ describe('Some boring tests.', function() {
         context.localStorage.clear();
       });
 
-      it('should set and get via localStorage', function(done) {
-        storage.set(o.key, o.value)
-          .then(function() {
-            return storage.get(o.key);
-          })
-          .then(function(value) {
-            assert.deepEqual(o.value, value);
-          })
-          .then(done)
-          .catch(done);
+      it('should set and get via localStorage', function() {
+        storage.set(o.key, o.value);
+        assert.deepEqual(storage.get(o.key), o.value);
       });
 
-      it('should set the value with pre-defined prefix', function(done) {
-        storage.set(o.key, o.value)
-          .then(function() {
-            assert(context.localStorage.getItem(C.prefix + o.key) != null);
-          })
-          .then(done)
-          .catch(done);
+      it('should set the value with pre-defined prefix', function() {
+        storage.set(o.key, o.value);
+        assert(context.localStorage.getItem(C.prefix + o.key) != null);
       });
 
       it('set and get via localstorage if date is not expired', function(done) {
         var futureTime = new Date(new Date().getTime() + 60 * 1000);
 
-        storage.setWithExpire(o.key, o.value, futureTime)
+        storage.setWithExpire(o.key, o.value, futureTime);
 
         setTimeout(function() {
-          storage.getWithExpire(o.key)
-            .then(function(value) {
-              assert.deepEqual(value, o.value);
-            })
-            .then(done)
-            .catch(done);
+          assert.deepEqual(storage.getWithExpire(o.key), o.value);
+          done();
         }, 300);
       });
 
       it('set and get via localstorage if date expired', function(done) {
         var futureTime = new Date(new Date().getTime() + 100);
 
-        storage.setWithExpire(o.key, o.value, futureTime)
+        storage.setWithExpire(o.key, o.value, futureTime);
 
         setTimeout(function() {
-          storage.getWithExpire(o.key)
-            .then(function(value) {
-              assert(value === undefined);
-              // extra check to make sure it had been discarded
-              return storage.keys();
-            })
-            .then(function(keys) {
-              assert(keys.includes(o.key) === false);
-            })
-            .then(done)
-            .catch(done);
+          assert(storage.getWithExpire(o.key) === undefined);
+          // extra check to make sure it had been discarded
+          assert(storage.keys().includes(o.key) === false);
+          done();
         }, 300);
       });
 
-      it('get a list of keys via localStorage', function(done) {
-        storage.set(o.key, o.value)
-          .then(function() {
-            return storage.keys();
-          })
-          .then(function(keys) {
-            assert(keys.includes(o.key) === true);
-          })
-          .then(done)
-          .catch(done);
+      it('get a list of keys via localStorage', function() {
+        storage.set(o.key, o.value);
+        assert(storage.keys().includes(o.key) === true);
       });
 
-      it('remove a pair of key/value via localStorage', function(done) {
-        storage.set(o.key, o.value)
-          .then(function() {
-            return storage.remove(o.key);
-          })
-          .then(function() {
-            return storage.get(o.key);
-          })
-          .then(function(value) {
-            assert(value === undefined);
-          })
-          .then(done)
-          .catch(done);
+      it('remove a pair of key/value via localStorage', function() {
+        storage.set(o.key, o.value);
+        storage.remove(o.key);
+        assert(storage.get(o.key) === undefined);
       });
 
-      it('remove all key/value via localStorage', function(done) {
+      it('remove all key/value via localStorage', function() {
         var oo = [{
           key: 'key1',
           valeu: 'value1'
@@ -164,22 +126,16 @@ describe('Some boring tests.', function() {
           valeu: 'value3'
         }];
 
-        Promise.all(oo.map(function(item) {
-          return storage.set(item.key, item.value);
-        }))
-          .then(function() {
-            return storage.removeAll();
-          })
-          .then(function() {
-            return storage.keys();
-          })
-          .then(function(keys) {
-            oo.forEach(function(item) {
-              assert(keys.includes(item.key) === false);
-            });
-          })
-          .then(done)
-          .catch(done);
+        oo.forEach(function(item) {
+          storage.set(item.key, item.value);
+        });
+
+        storage.removeAll();
+        var allKeys = storage.keys();
+
+        oo.forEach(function(item) {
+          assert(allKeys.includes(item.key) === false);
+        });
       });
     });
 
@@ -215,25 +171,14 @@ describe('Some boring tests.', function() {
           });
       });
 
-      it('set and get via cookie', function(done) {
-        storage.set(o.key, o.value)
-          .then(function() {
-            return storage.get(o.key);
-          })
-          .then(function(value) {
-            assert.deepEqual(value, o.value);
-          })
-          .then(done)
-          .catch(done);
+      it('set and get via cookie', function() {
+        storage.set(o.key, o.value);
+        assert.deepEqual(storage.get(o.key), o.value);
       });
 
-      it('set the value with pre-defined prefix', function(done) {
-        storage.set(o.key, o.value)
-          .then(function() {
-            assert(context.document.cookie.indexOf(C.prefix + o.key) > -1);
-          })
-          .then(done)
-          .catch(done);
+      it('set the value with pre-defined prefix', function() {
+        storage.set(o.key, o.value);
+        assert(context.document.cookie.indexOf(C.prefix + o.key) > -1);
       });
 
       it('set and get via cookie if date is not expired', function(done) {
@@ -242,12 +187,8 @@ describe('Some boring tests.', function() {
         storage.setWithExpire(o.key, o.value, futureTime);
 
         setTimeout(function() {
-          storage.getWithExpire(o.key)
-            .then(function(value) {
-              assert.deepEqual(value, o.value);
-            })
-            .then(done)
-            .catch(done);
+          assert.deepEqual(storage.getWithExpire(o.key), o.value);
+          done();
         }, 300);
       });
 
@@ -257,46 +198,25 @@ describe('Some boring tests.', function() {
         storage.setWithExpire(o.key, o.value, futureTime);
 
         setTimeout(function() {
-          storage.getWithExpire(o.key)
-            .then(function(value) {
-              assert(value === undefined);
-              // extra check to make sure it had been discarded
-              return storage.get(o.key);
-            })
-            .then(function(value) {
-              assert(value === undefined);
-            })
-            .then(done)
-            .catch(done);
+          assert(storage.getWithExpire(o.key) === undefined);
+          // extra check to make sure it had been discarded
+          assert(storage.get(o.key) === undefined);
+          done();
         }, 300);
       });
 
-      it('get a list of keys via cookie', function(done) {
+      it('get a list of keys via cookie', function() {
         storage.set(o.key, o.value);
-        storage.keys()
-          .then(function(keys) {
-            assert(keys.includes(o.key));
-          })
-          .then(done)
-          .catch(done);
+        assert(storage.keys().includes(o.key));
       });
 
-      it('remove a pair of key/value via cookie', function(done) {
-        storage.set(o.key, o.value)
-          .then(function() {
-            return storage.remove(o.key);
-          })
-          .then(function() {
-            return storage.get(o.key);
-          })
-          .then(function(value) {
-            assert(value === undefined);
-          })
-          .then(done)
-          .catch(done);
+      it('remove a pair of key/value via cookie', function() {
+        storage.set(o.key, o.value);
+        storage.remove(o.key);
+        assert(storage.get(o.key) === undefined);
       });
 
-      it('remove all key/value via cookie', function(done) {
+      it('remove all key/value via cookie', function() {
         var oo = [{
           key: 'key1',
           value: 'value1'
@@ -308,22 +228,16 @@ describe('Some boring tests.', function() {
           value: 'value3'
         }];
 
-        Promise.all(oo.map(function(item) {
-          return storage.set(item.key, item.value);
-        }))
-          .then(function() {
-            return storage.removeAll();
-          })
-          .then(function() {
-            return storage.keys();
-          })
-          .then(function(keys) {
-            oo.forEach(function(item) {
-              assert(keys.includes(item.key) === false);
-            });
-          })
-          .then(done)
-          .catch(done);
+        oo.forEach(function(item) {
+          storage.set(item.key, item.value);
+        });
+
+        storage.removeAll();
+        var allKeys = storage.keys();
+
+        oo.forEach(function(item) {
+          assert(allKeys.includes(item.key) === false);
+        });
       });
     });
 
