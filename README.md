@@ -25,15 +25,11 @@ var info = {
   timezone: '+9'
 };
 
-storage.set('userInfo', info)
-  .then(function() {
-    // save to storage succesfully
-  });
+// save to storage
+storage.set('userInfo', info); 
     
-storage.get('userInfo')
-  .then(function(storedInfo) {
-    console.log(storedInfo); // { location: 'Japan', timezone: '+9' }
-  });
+var storedInfo = storage.get('userInfo');
+console.log(storedInfo); // { location: 'Japan', timezone: '+9' }
 ```
 
 # API
@@ -43,10 +39,8 @@ storage.get('userInfo')
 Set `value` to the `key`.
 
 ```js
-storage.set('someData', [1, 3, 5])
-  .then(function() {
-    // save to storage succesfully
-  });
+// save to storage
+storage.set('someData', [1, 3, 5]);
 ```
 
 #### `storage.get(key)`
@@ -54,10 +48,8 @@ storage.set('someData', [1, 3, 5])
 Get `value` from the `key`.
 
 ```js
-storage.get('someData')
-  .then(function(data) {
-    console.log(data); // [1, 3, 5]
-  });
+var data = storage.get('someData')
+console.log(data); // [1, 3, 5]
 ```
 
 #### `storage.setWithExpire(key, value, date)`
@@ -68,22 +60,14 @@ Set/Get `value` to/from the `key` with a `Date` to be expired.
 ```js
 var nextWeek = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
 
-storage.setWithExpire('checkin', true, nextWeek)
-  .then(function() {
-    // save to storage successfully
-  });
+// save to storage
+storage.setWithExpire('checkin', true, nextWeek); 
   
 // one day later
-storage.getWithExpire('chekin')
-  .then(function(data) {
-    console.log(data); // true
-  });
+storage.getWithExpire('chekin'); // true
   
 // one week later
-storage.getWithExpire('chekin')
-  .then(function(data) {
-    console.log(data); // undefined
-  });
+storage.getWithExpire('chekin'); // undefined
 ```
 
 #### `storage.remove(key)`
@@ -91,10 +75,8 @@ storage.getWithExpire('chekin')
 Remove `key` and `value` from the storage.
 
 ```js
-storage.remove('someData')
-  .then(function() {
-    // remove key and value from the storage
-  });
+// remove key and value from the storage
+storage.remove('someData');
 ```
 
 #### `storage.removeAll()`
@@ -102,10 +84,8 @@ storage.remove('someData')
 Remove all `key` and `value` from the storage. This only remove data which prefixed uniquely.
 
 ```js
-storage.removeAll()
-  .then(function() {
-    // remove all key and value from the storage
-  });
+// remove all key and value from the storage
+storage.removeAll();
 ```
 
 # Test
