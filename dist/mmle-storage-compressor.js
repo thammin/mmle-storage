@@ -499,6 +499,12 @@ if (typeof define === 'function' && define.amd) {
 } else if( typeof module !== 'undefined' && module != null ) {
   module.exports = LZString
 }
+/**
+ * @license
+ * mmle-storage
+ * Copyright (c) 2016 Paul Young
+ * Released under MIT license.
+ */
 (function() {
   'use strict';
   var root = this;
